@@ -1,6 +1,7 @@
 from rest_framework import generics
 from organization.serializers import *
 from product.models import user, partner
+from django.http import request
 
 
 
@@ -42,3 +43,6 @@ class OrganizatsionListView(generics.ListAPIView):
 class OrganizatsionDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrganizatsionDetailSerializers
     queryset = organizatsion.objects.all()
+
+def home(request):
+    print(request.POST)
