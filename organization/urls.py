@@ -9,4 +9,7 @@ urlpatterns = [
     path('partner/create/', PartnerCreteView.as_view()),
     path('all_partner/', PartnerListView.as_view()),
     path('partner/detail/<int:pk>/', PartnerDetailView.as_view()),
+    path('organizatsion/create/', PartnerCreteView.as_view()),
+    path('all_organizatsions/', PartnerListView.as_view()),
+    path('organizatsion/detail/<int:pk>/', PartnerDetailView.as_view()),
 ]

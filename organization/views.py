@@ -29,3 +29,16 @@ class PartnerListView(generics.ListAPIView):
 class PartnerDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PartnerDetailSerializers
     queryset = partner.objects.all()
+
+
+
+class OrganizatsionCreteView(generics.CreateAPIView):
+    serializer_class = OrganizatsionDetailSerializers
+
+class OrganizatsionListView(generics.ListAPIView):
+    serializer_class = OrganizatsionListView
+    queryset = organizatsion.objects.all()
+
+class OrganizatsionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = OrganizatsionDetailSerializers
+    queryset = organizatsion.objects.all()
