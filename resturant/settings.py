@@ -153,7 +153,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 CORS_ORIGIN_WHITELIST  =[
-    "http://192.168.0.154...3000"
+    "http://192.168.0.154:3000"
 ]
 
 django_heroku.settings(locals())
