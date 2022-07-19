@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv(
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['stratappresturant.herokuapp.com', '127.0.0.1']
@@ -150,7 +150,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 CORS_ORIGIN_WHITELIST  =[
-    "http://localhost:3000"
+    "http://192.168.0.154...3000"
 ]
 
 django_heroku.settings(locals())
