@@ -2,7 +2,7 @@ from django.db import models
 from organization.models import *
 
 class category(models.Model):
-    name = models.CharField(max_length=64, verbose_name='Catigory name', null=False, unique=True)
+    name = models.CharField(max_length=64, verbose_name='Catigory name', null=False)
     oraganizatsion_id = models.ForeignKey(organizatsion, verbose_name='Which organization product catigoris', on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='catigoris_logo/', blank=True, null=True)
 
@@ -18,7 +18,7 @@ class unit(models.Model):
         return self.name
 
 class product(models.Model):
-    name = models.CharField(max_length=64, verbose_name='Product name', null=False, unique=True)
+    name = models.CharField(max_length=64, verbose_name='Product name', null=False)
     unit = models.ForeignKey(unit, on_delete=models.CASCADE)
     description = models.CharField(max_length=264, verbose_name='Description product', null=True)
     organization = models.ForeignKey(organizatsion, verbose_name='Which organizations product', on_delete=models.CASCADE)

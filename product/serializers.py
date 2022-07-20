@@ -7,7 +7,7 @@ from product.models import product, category
 class CategoryListView(serializers.ModelSerializer):
     class Meta():
         model = category
-        fields = ('id', 'name', 'organization_id.name')
+        fields = ('id', 'name', 'oraganizatsion_id')
 
 class CategoryDetailSerializers(serializers.ModelSerializer):
     class Meta():
