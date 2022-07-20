@@ -147,10 +147,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "live-static" ,'media-root')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-#     'PAGE_SIZE': 100
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}
 
 CORS_ORIGIN_WHITELIST  =[
     "http://192.168.0.154:3000",
