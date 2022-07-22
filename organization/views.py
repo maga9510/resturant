@@ -1,7 +1,7 @@
 from rest_framework import generics
 from organization.serializers import *
-from product.models import user, partner
-from django.http import request
+from product.models import user, partner, room, platform_user
+
 
 
 
@@ -16,10 +16,6 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserDetailSerializers
     queryset = user.objects.all()
 
-
-
-
-
 class PartnerCreteView(generics.CreateAPIView):
     serializer_class = PartnerDetailSerializers
 
@@ -30,8 +26,6 @@ class PartnerListView(generics.ListAPIView):
 class PartnerDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PartnerDetailSerializers
     queryset = partner.objects.all()
-
-
 
 class OrganizatsionCreteView(generics.CreateAPIView):
     serializer_class = OrganizatsionDetailSerializers
@@ -44,5 +38,25 @@ class OrganizatsionDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrganizatsionDetailSerializers
     queryset = organizatsion.objects.all()
 
-def home(request):
-    print(request.POST)
+class PlatformUserCreteView(generics.CreateAPIView):
+    serializer_class = PlatformUserDetailSerializers
+
+class PlatformUserListView(generics.ListAPIView):
+    serializer_class = PlatformUserListView
+    queryset = platform_user.objects.all()
+
+class PlatformUserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PlatformUserDetailSerializers
+    queryset = platform_user.objects.all()
+
+
+class RoomCreteView(generics.CreateAPIView):
+    serializer_class = RoomDetailSerializers
+
+class RoomListView(generics.ListAPIView):
+    serializer_class = RoomListView
+    queryset = room.objects.all()
+
+class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = RoomDetailSerializers
+    queryset = room.objects.all()

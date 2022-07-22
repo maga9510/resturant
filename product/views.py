@@ -38,17 +38,32 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductDetailSerializers
     queryset = product.objects.all()
 
-# class Product_amountCreteView(generics.CreateAPIView):
-#     serializer_class = ProductDetailSerializers
-
-# class Product_amountListView(generics.ListAPIView):
-#     serializer_class = ProductListView
-#     queryset = product.objects.all()
+class Product_amountCreteView(generics.CreateAPIView):
+    serializer_class = Product_amountDetailSerializers
 
 
-# class Product_amountDetailView(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = ProductDetailSerializers
-#     queryset = product.objects.all()
+class Product_amountListView(generics.ListAPIView):
+    serializer_class = Product_amountListView
+    queryset = product_amount.objects.all()
+
+
+class Product_amountDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Product_amountDetailSerializers
+    queryset = product_amount.objects.all()
+
+
+class Category_JoinCreteView(generics.CreateAPIView):
+    serializer_class = Category_JoinDetailSerializers
+
+
+class Category_JoinListView(generics.ListAPIView):
+    serializer_class = Category_JoinListView
+    queryset = product_amount.objects.all()
+
+
+class Category_JoinDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = Category_JoinDetailSerializers
+    queryset = product_amount.objects.all()
 
 
 

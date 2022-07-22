@@ -1,6 +1,12 @@
 from pyexpat import model
 from rest_framework import serializers
-from organization.models import user, partner, organizatsion
+from organization.models import (
+    user,
+    partner, 
+    organizatsion, 
+    platform_user, 
+    room,
+)
 
 
 
@@ -15,8 +21,6 @@ class UserDetailSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
-
 class PartnerListView(serializers.ModelSerializer):
     class Meta():
         model = partner
@@ -28,7 +32,6 @@ class PartnerDetailSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 class OrganizatsionListView(serializers.ModelSerializer):
     class Meta():
         model = organizatsion
@@ -38,3 +41,29 @@ class OrganizatsionDetailSerializers(serializers.ModelSerializer):
     class Meta():
         model = organizatsion
         fields = "__all__"
+
+
+class PlatformUserListView(serializers.ModelSerializer):
+    class Meta():
+        model = platform_user
+        fields = ('id', 'organization', 'full_name', 'role')
+
+class PlatformUserDetailSerializers(serializers.ModelSerializer):
+    class Meta():
+        model = platform_user
+        fields = "__all__"
+
+
+class RoomListView(serializers.ModelSerializer):
+    class Meta():
+        model = room
+        fields = ('id', 'name', 'oraganizatsion_id')
+
+class RoomDetailSerializers(serializers.ModelSerializer):
+    class Meta():
+        model = room
+        fields = "__all__"
+
+
+
+
