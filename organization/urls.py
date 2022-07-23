@@ -23,6 +23,10 @@ urlpatterns = [
     path('all_room/', RoomListView.as_view()),
     path('room/detail/<int:pk>/', RoomDetailView.as_view()), 
 
+    path('table/create/', Org_tableCreteView.as_view()),
+    path('all_table/', Org_tableListView.as_view()),
+    path('table/detail/<int:pk>/', Org_tableDetailView.as_view()), 
+
 
 
 ]

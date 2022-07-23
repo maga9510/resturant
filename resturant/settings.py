@@ -28,8 +28,8 @@ SECRET_KEY = os.environ.get(
     )
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 
+url = 'https://stratappresturant.herokuapp.com/'
 
 
 if os.environ.get('DEBUG', default=False) in ['True', 'true', '1', True]:
