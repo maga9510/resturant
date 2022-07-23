@@ -1,9 +1,9 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from order.serializers import *
 from order.models import order, cart
 from rest_framework import generics
-from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
+
+from django.views.decorators.csrf import csrf_exempt
 
 
 class UserCreteView(generics.CreateAPIView):
@@ -17,8 +17,10 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CartDetailSerializers
     queryset = cart.objects.all()
 
+@csrf_exempt 
+def api_post(request ,format=None):
+    if request.method == "POST":
+        data = request.POST
+        print(data['name'])
 
-def api_post(request):
-
-    print(request.data)
-    return HttpResponse('ok')
+    return JsonResponse(data)

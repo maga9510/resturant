@@ -136,3 +136,5 @@ def get_api_pagination(request, cat_name, num):
             }) 
         data['next_page_url'] = f'{url}api/v1/org/next_page/{cat_name}/{num+1}/'
     return JsonResponse(data)
+
+
