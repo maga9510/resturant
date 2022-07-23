@@ -18,15 +18,15 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CartDetailSerializers
     queryset = cart.objects.all()
 
-# @csrf_exempt 
-# def api_post(request ,format=None):
+@csrf_exempt 
+def api_post(request ,format=None):
 
-#     if request.method == "POST":
-#         data = json.loads(request.body)
-#         if len(data['product'])
-#         # for i in data['product']:
-#         #     print(i)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        # if len(data['product'])
+        # for i in data['product']:
+        #     print(i)
 
 
 
-#     return JsonResponse(data)
+    return JsonResponse(data)
