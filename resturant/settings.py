@@ -32,10 +32,10 @@ SECRET_KEY = os.environ.get(
 url = 'https://stratappresturant.herokuapp.com/'
 
 
-# if os.environ.get('DEBUG', default=False) in ['True', 'true', '1', True]:
-DEBUG = True
-# else:
-#     DEBUG = False
+if os.environ.get('DEBUG', default=False) in ['True', 'true', '1', True]:
+    DEBUG = True
+else:
+    DEBUG = False
 
 
 
@@ -164,9 +164,7 @@ CORS_ORIGIN_WHITELIST  =[
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-)
+
 
 
 django_heroku.settings(locals())
