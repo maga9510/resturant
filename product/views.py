@@ -80,7 +80,6 @@ def get_api_view(request, id):
         data['category'].append({
                 'name': i.name,
                 'category_id': i.id,
-                'organizatsion' : f'{i.oraganizatsion_id.name}',
                 'product': [],
                 'next_page_url': f"{url}api/v1/org/next_page/{i.id}/1/",
                     }
