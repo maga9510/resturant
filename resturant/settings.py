@@ -32,10 +32,10 @@ SECRET_KEY = os.environ.get(
 url = 'https://stratappresturant.herokuapp.com/'
 
 
-if os.environ.get('DEBUG', default=False) in ['True', 'true', '1', True]:
-    DEBUG = True
-else:
-    DEBUG = False
+# if os.environ.get('DEBUG', default=False) in ['True', 'true', '1', True]:
+DEBUG = True
+# else:
+#     DEBUG = False
 
 
 
