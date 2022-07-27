@@ -25,7 +25,7 @@ class cart(models.Model):
     orders = models.ForeignKey(order, on_delete=models.CASCADE)
     product_amount = models.ForeignKey(product_amount, on_delete=models.CASCADE)
     amount = models.PositiveSmallIntegerField(null=False)
-
+    
     def __str__(self) -> str:
         return f'Product name added to cart {self.product_amount.product}'
 
