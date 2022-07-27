@@ -81,7 +81,6 @@ def get_api_view(request, id):
                 'name': i.name,
                 'category_id': i.id,
                 'organizatsion' : f'{i.oraganizatsion_id.name}',
-                'photo_url' : f"{url}media/catigoris_logo/{str(i.photo).split('/')[1]}",
                 'product': [],
                 'next_page_url': f"{url}api/v1/org/next_page/{i.id}/1/",
                     }
