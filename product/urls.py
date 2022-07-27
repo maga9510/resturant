@@ -20,7 +20,7 @@ urlpatterns = [
     path('product/cjp/detail/<int:pk>/', Product_amountDetailView.as_view()),
 
     path('org/<int:id>/getHomeDetail/', get_api_view),
-    path('org/next_page/<str:cat_name>/<int:num>/', get_api_pagination),
+    path('org/next_page/<int:id>/<int:num>/', get_api_pagination),
 
     
 
