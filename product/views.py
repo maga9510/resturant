@@ -93,7 +93,7 @@ def get_api_view(request, id):
             data['category'][a]['product'].append({
                 'product_name': e.product.name,
                 'product_id': e.product.id,
-                'amount':[],
+                'item':[],
                 'unit': e.product.unit.name,
                 'description': e.product.description,
                 'url_photo': f"{url}media/catigoris_logo/{str(e.product.photo).split('/')[1]}"
@@ -103,7 +103,7 @@ def get_api_view(request, id):
             amount_data = product_amount.objects.filter(product__id=w['product_id'])
 
             for q in amount_data:
-                w['amount'].append({
+                w['item'].append({
                     'amount_id':q.id,
                     'amount': q.amount,
                     'price':q.price,
@@ -132,7 +132,7 @@ def get_api_pagination(request, id, num):
             data['product'].append({
                 'product_id': p_data.product.id,
                 'name': p_data.product.name,
-                'amount': [],
+                'item': [],
                 'unit': p_data.product.unit.name,
                 'description': p_data.product.description,
                 'url_photo': f"{url}media/product_photo/{str(p_data.product.photo).split('/')[1]}"
@@ -141,7 +141,7 @@ def get_api_pagination(request, id, num):
         for e in data['product']:
             amount_data = product_amount.objects.filter(product__id=e['product_id'])
             for w in amount_data:
-                e['amount'].append({
+                e['item'].append({
                     'amount_id':w.id,
                     'amount': w.amount,
                     'price':w.price,
