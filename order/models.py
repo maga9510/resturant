@@ -12,7 +12,7 @@ class order(models.Model):
         (4, 'cancellation'),
         
     )
-    status = models.PositiveSmallIntegerField(verbose_name='Order status', choices=STATUS)
+    status = models.PositiveSmallIntegerField(verbose_name='Order status', choices=STATUS, default= 1)
     PAYMANTS = (
         (1, 'Cash'),
         (2, 'Terminal'),
