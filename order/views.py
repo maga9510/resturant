@@ -31,4 +31,13 @@ def create_api(request, format=None):
 
 
 
-
+# {
+#    "table_num": 3,
+#    "people_number": 3,
+#    "paymant": 1,
+#    "product" : [
+#        {"product_id": 1, "product_amount_id": 2, "quantity": 3 },
+#        {"product_id": 2, "product_amount_id": 1, "quantity": 1 },
+#        {"product_id": 3, "product_amount_id": 4, "quantity": 1 }
+#    ]
+# }

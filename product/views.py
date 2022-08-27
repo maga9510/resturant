@@ -1,4 +1,3 @@
-
 from rest_framework import generics
 from product.serializers import *
 from product.models import product, category, category_join_product, product_amount
@@ -6,9 +5,6 @@ from rest_framework.pagination import PageNumberPagination
 from django.http import JsonResponse, HttpResponse
 from organization.models import *
 from resturant.settings import url
-
-
-
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -75,7 +71,6 @@ def get_api_view(request, id):
     org_name = org_data.room_id.oraganizatsion_id.name
     data = {'organizatsion':org_name, 'category':[]}
     a = 0
-
     for i in category.objects.filter(oraganizatsion_id__id=org_id):
         data['category'].append({
                 'name': i.name,
@@ -85,7 +80,6 @@ def get_api_view(request, id):
                     }
         )
         num = 0
-
         for e in category_join_product.objects.filter(category_id=i.id):
             num += 1
             if num > 6:
@@ -101,7 +95,6 @@ def get_api_view(request, id):
 
         for w in data['category'][a]['product']:
             amount_data = product_amount.objects.filter(product__id=w['product_id'])
-
             for q in amount_data:
                 w['item'].append({
                     'amount_id':q.id,
@@ -109,6 +102,8 @@ def get_api_view(request, id):
                     'price':q.price,
                     })
         a += 1
+        # app_name = __package__
+        # print(type(app_name))
     return JsonResponse(data)
 
 def get_api_pagination(request, id, num):
