@@ -1,10 +1,11 @@
 from rest_framework import generics
 from product.serializers import *
-from product.models import product, category, category_join_product, product_amount
+from product.models import product, category, category_join_product, product_amount, product_view
 from rest_framework.pagination import PageNumberPagination
 from django.http import JsonResponse, HttpResponse
 from organization.models import *
 from resturant.settings import url
+from django.db.models import OuterRef, Max
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -65,83 +66,71 @@ class Category_JoinDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = product_amount.objects.all()
 
 
-def get_api_view(request, id):
+def get_categorys_api(request, id):
     org_data = organization_table.objects.get(id=id)
     org_id = org_data.room_id.oraganizatsion_id.id
     org_name = org_data.room_id.oraganizatsion_id.name
-    data = {'organizatsion':org_name, 'category':[]}
-    a = 0
-    for i in category.objects.filter(oraganizatsion_id__id=org_id):
-        data['category'].append({
-                'name': i.name,
-                'category_id': i.id,
-                'product': [],
-                'next_page_url': f"{url}api/v1/org/next_page/{i.id}/1/",
-                    }
-        )
-        num = 0
-        for e in category_join_product.objects.filter(category_id=i.id):
-            num += 1
-            if num > 6:
-                break
-            data['category'][a]['product'].append({
-                'product_name': e.product.name,
-                'product_id': e.product.id,
-                'item':[],
-                'unit': e.product.unit.name,
-                'description': e.product.description,
-                'url_photo': f"{url}media/catigoris_logo/{str(e.product.photo).split('/')[1]}"
-            })
+    org_logo = org_data.room_id.oraganizatsion_id.logo
+    query = category_join_product.objects.filter(category__oraganizatsion_id=org_id).values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo')
+    cat_data = category.objects.filter(oraganizatsion_id=org_id)
+    data = {'organizatsion':org_name, "logo": f"{url}media/{str(org_logo)}", "categorys": []}
 
-        for w in data['category'][a]['product']:
-            amount_data = product_amount.objects.filter(product__id=w['product_id'])
-            for q in amount_data:
-                w['item'].append({
-                    'amount_id':q.id,
-                    'amount': q.amount,
-                    'price':q.price,
+    for i in cat_data:
+        data['categorys'].append({
+            'name': i.name,
+            'category_id': i.id,
+            'category_photo_url': f"{url}media/{str(i.photo)}",
+            'products': [],
+            'next_products_url': f"{url}api/v1/org/next_products/{i.id}/1/",
+            })
+    for i in query:
+        for x in data['categorys']:
+            if len(x['products'])<6 and x['category_id']== i['category__id']:
+                x['products'].append({
+                    'product_name': i['product__name'],
+                    'product_id': i['product__id'], 
+                    'product_photo_url': f"{url}media/{str(i['product__photo'])}",
                     })
-        a += 1
-        # app_name = __package__
-        # print(type(app_name))
+
     return JsonResponse(data)
 
+
+def get_products_api(requests, id):
+    query = product_amount.objects.filter(product=id)
+    data = {'product': query[0].product.name, 'unit': query[0].product.unit.name, 'item': [], 'description': query[0].product.description, 'product_photo':f'{url}meida/{query[0].product.photo}'}
+    for i in query:
+        data['item'].append({
+            'amount':i.amount,
+            'price': i.price,
+        })
+    return JsonResponse(data)
+
+
 def get_api_pagination(request, id, num):
-    product_data = category_join_product.objects.filter(category__id=id)
-    if len(product_data) < 6 * num:
+    product_data = category_join_product.objects.filter(category__id=id).values('category__id','category__name',\
+        'product__id','product__name', 'product__photo')
+    q = len(product_data)
+    if q <= 6 * num:
         data = {}
     else:
         number = (6 * num) + 1
         count = 0
         data = {
-                'category': product_data[0].category.name, 
-                'category_id': product_data[0].category.id,
-                'product' : []
+                'category_name': product_data[0]['category__name'], 
+                'category_id': product_data[0]['category__id'],
+                'products' : []
             }
-
-        for i in range(number, len(product_data)):
-            p_data = product_data[i]
+        for i in range(number, q):
             count += 1
             if count > 6:
                 break
-            data['product'].append({
-                'product_id': p_data.product.id,
-                'name': p_data.product.name,
-                'item': [],
-                'unit': p_data.product.unit.name,
-                'description': p_data.product.description,
-                'url_photo': f"{url}media/product_photo/{str(p_data.product.photo).split('/')[1]}"
-            })  
-        
-        for e in data['product']:
-            amount_data = product_amount.objects.filter(product__id=e['product_id'])
-            for w in amount_data:
-                e['item'].append({
-                    'amount_id':w.id,
-                    'amount': w.amount,
-                    'price':w.price,
-                })                
-        data['next_page_url'] = f'{url}api/v1/org/next_page/{id}/{num+1}/'
+            data['products'].append({
+                'product_name': product_data[i]['product__name'],
+                'product_id': product_data[i]['product__id'],
+                'product_photo_url': f"{url}media/{str(product_data[i])}"
+            })              
+        data['next_products_url'] = f'{url}api/v1/org/next_page/{id}/{num+1}/'
     return JsonResponse(data)
+
 
 

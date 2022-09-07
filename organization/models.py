@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import RegexValidator
 
 class user(models.Model):
     name = models.CharField(max_length=64, verbose_name='User name', null=False)

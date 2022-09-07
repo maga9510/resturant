@@ -20,10 +20,13 @@ class OrderDetailSerializers(serializers.ModelSerializer):
 class CartListView(serializers.ModelSerializer):
     class Meta():
         model = cart
-        fields = ('id', 'name', 'role')
+        fields = "__all__"
+
 
 class CartDetailSerializers(serializers.ModelSerializer):
     class Meta():
         model = cart
         fields = "__all__"
+
+
 

@@ -19,8 +19,9 @@ urlpatterns = [
     path('product/cjp/create/', Product_amountCreteView.as_view()),
     path('product/cjp/detail/<int:pk>/', Product_amountDetailView.as_view()),
 
-    path('org/<int:id>/getHomeDetail/', get_api_view),
-    path('org/next_page/<int:id>/<int:num>/', get_api_pagination),
+    path('org/<int:id>/getHomeDetail/', get_categorys_api),
+    path('org/getProducts/<int:id>/', get_products_api),
+    path('org/next_products/<int:id>/<int:num>/', get_api_pagination),
 
     
 
