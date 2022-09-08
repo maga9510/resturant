@@ -98,7 +98,7 @@ def get_products_api(requests, id):
     data = {'product': query[0].product.name, 'unit': query[0].product.unit.name, 'item': [], 'description': query[0].product.description, 'product_photo':f'{url}meida/{query[0].product.photo}'}
     for i in query:
         data['item'].append({
-            'amount':i.amount,
+            'title':i.amount,
             'price': i.price,
         })
     return JsonResponse(data)
