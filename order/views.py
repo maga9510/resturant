@@ -51,7 +51,11 @@ def create_order_api(request):
                 "order_id": order_data.id,
                 "order_status": "pending",
             }
-            return JsonResponse(r)     
+            return JsonResponse(r)   
+        else:
+            return HttpResponse("Geo pisition out in resturant")  
+    else:
+        return HttpResponse("500")    
 
 @csrf_exempt 
 def update_order_api(request):

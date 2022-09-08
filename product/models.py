@@ -21,7 +21,6 @@ class product(models.Model):
     unit = models.ForeignKey(unit, on_delete=models.CASCADE)
     description = models.CharField(max_length=264, verbose_name='Description product', null=True)
     photo = models.ImageField(upload_to='product_photo/', blank=True)
-    count = models.PositiveSmallIntegerField(default=0, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -44,10 +43,3 @@ class category_join_product(models.Model):
         return f'Catigoris name {self.category.name} Product name {self.product.name}'
 
 
-
-class product_view(models.Model):
-    day = models.DateTimeField(default=datetime.now())
-    product = models.ForeignKey(product, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return super().__str__()

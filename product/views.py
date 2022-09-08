@@ -1,12 +1,10 @@
 from rest_framework import generics
 from product.serializers import *
-from product.models import product, category, category_join_product, product_amount, product_view
+from product.models import product, category, category_join_product, product_amount
 from rest_framework.pagination import PageNumberPagination
 from django.http import JsonResponse, HttpResponse
 from organization.models import *
 from resturant.settings import url
-from django.db.models import OuterRef, Max
-
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 6
@@ -127,7 +125,7 @@ def get_api_pagination(request, id, num):
             data['products'].append({
                 'product_name': product_data[i]['product__name'],
                 'product_id': product_data[i]['product__id'],
-                'product_photo_url': f"{url}media/{str(product_data[i])}"
+                'product_photo_url': f"{url}media/{str(product_data[i].photo)}"
             })              
         data['next_products_url'] = f'{url}api/v1/org/next_page/{id}/{num+1}/'
     return JsonResponse(data)
