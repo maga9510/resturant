@@ -91,13 +91,14 @@ def get_categorys_api(request, id):
                     })
 
     return JsonResponse(data)
-
+        
 
 def get_products_api(requests, id):
     query = product_amount.objects.filter(product=id)
-    data = {'product': query[0].product.name, "product_id": query[0].product.id, 'unit': query[0].product.unit.name, 'item': [], 'description': query[0].product.description, 'product_photo':f'{url}meida/{query[0].product.photo}'}
+    data = {'product': query[0].product.name, 'unit': query[0].product.unit.name, 'item': [], 'description': query[0].product.description, 'product_photo':f'{url}meida/{query[0].product.photo}'}
     for i in query:
         data['item'].append({
+            "item_id" : i.id,
             'title':i.amount,
             'price': i.price,
         })
