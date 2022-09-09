@@ -72,23 +72,30 @@ def get_categorys_api(request, id):
     query = category_join_product.objects.filter(category__oraganizatsion_id=org_id).values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo')
     cat_data = category.objects.filter(oraganizatsion_id=org_id)
     data = {'organizatsion':org_name, "logo": f"{url}media/{str(org_logo)}", "categorys": []}
-
+    count = 0
     for i in cat_data:
         data['categorys'].append({
             'name': i.name,
             'category_id': i.id,
             'category_photo_url': f"{url}media/{str(i.photo)}",
             'products': [],
-            'next_products_url': f"{url}api/v1/org/next_products/{i.id}/1/",
+            'next_products_url': None,
             })
     for i in query:
         for x in data['categorys']:
-            if len(x['products'])<6 and x['category_id']== i['category__id']:
-                x['products'].append({
-                    'product_name': i['product__name'],
-                    'product_id': i['product__id'], 
-                    'product_photo_url': f"{url}media/{str(i['product__photo'])}",
-                    })
+            if x['category_id']== i['category__id']:
+                if len(x['products'])<6:
+                    x['products'].append({
+                        'product_name': i['product__name'],
+                        'product_id': i['product__id'], 
+                        'product_photo_url': f"{url}media/{str(i['product__photo'])}",
+                        })
+                count += 1
+                if count > 7:
+                    x['next_products_url'] = f"{url}api/v1/org/next_products/{x['category_id']}/1/"
+                    count = 0
+                    break
+                print(count)
 
     return JsonResponse(data)
         
@@ -107,29 +114,29 @@ def get_products_api(requests, id):
 
 def get_api_pagination(request, id, num):
     product_data = category_join_product.objects.filter(category__id=id).values('category__id','category__name',\
-        'product__id','product__name', 'product__photo')
+        'product__id','product__name', 'product__photo')[6:]
     q = len(product_data)
-    if q <= 6 * num:
-        data = {}
-    else:
-        number = (6 * num) + 1
-        count = 0
-        data = {
-                'category_name': product_data[0]['category__name'], 
-                'category_id': product_data[0]['category__id'],
-                'products' : []
-            }
-        for i in range(number, q):
-            count += 1
-            if count > 6:
-                break
-            data['products'].append({
-                'product_name': product_data[i]['product__name'],
-                'product_id': product_data[i]['product__id'],
-                'product_photo_url': f"{url}media/{str(product_data[i]['product__photo'])}"
-            })              
+    data = {
+            'category_name': product_data[0]['category__name'], 
+            'category_id': product_data[0]['category__id'],
+            'products' : []
+        }
+    count = 0
+    for i in product_data:
+        count += 1
+        if count > 6:
+            break
+        data['products'].append({
+            'product_name': i['product__name'],
+            'product_id': i['product__id'],
+            'product_photo_url': f"{url}media/{str(i['product__photo'])}"
+        })  
+    if q / 6 > num+1:           
         data['next_products_url'] = f'{url}api/v1/org/next_products/{id}/{num+1}/'
+    else:
+        data['next_products_url'] = None
     return JsonResponse(data)
+
 
 
 
