@@ -128,7 +128,7 @@ def get_api_pagination(request, id, num):
                 'product_id': product_data[i]['product__id'],
                 'product_photo_url': f"{url}media/{str(product_data[i]['product__photo'])}"
             })              
-        data['next_products_url'] = f'{url}api/v1/org/next_page/{id}/{num+1}/'
+        data['next_products_url'] = f'{url}api/v1/org/next_products/{id}/{num+1}/'
     return JsonResponse(data)
 
 
