@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'order.apps.OrderConfig',
     'organization.apps.OrganizationConfig',
     'product.apps.ProductConfig',
+    # "drf_yasg",
     'rest_framework',
     'corsheaders',
 ]
@@ -161,6 +162,7 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST  =[
     "http://192.168.0.154:3000",
     "http://localhost:3000",
+    "https://restouran-app.vercel.app",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
