@@ -28,7 +28,7 @@ class product(models.Model):
     
 class product_amount(models.Model):
     product = models.ForeignKey(product, verbose_name='Which product', on_delete=models.CASCADE)
-    title = models.CharField(verbose_name="Item title", max_length=64)
+    title = models.CharField(verbose_name="Item title", max_length=20)
     price = models.IntegerField(verbose_name='Price')
 
     def __str__(self) -> str:
