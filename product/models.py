@@ -28,11 +28,11 @@ class product(models.Model):
     
 class product_amount(models.Model):
     product = models.ForeignKey(product, verbose_name='Which product', on_delete=models.CASCADE)
-    amount = models.FloatField(verbose_name='amount')
+    title = models.CharField(verbose_name="Item title", max_length=64)
     price = models.IntegerField(verbose_name='Price')
 
     def __str__(self) -> str:
-        return f'{self.product.name} {self.amount} {self.price}'
+        return f'{self.title}'
     
 
 class category_join_product(models.Model):

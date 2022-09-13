@@ -106,7 +106,7 @@ def get_products_api(requests, id):
     for i in query:
         data['item'].append({
             "item_id" : i.id,
-            'title':i.amount,
+            'title':i.title,
             'price': i.price,
         })
     return JsonResponse(data)
@@ -136,7 +136,5 @@ def get_api_pagination(request, id, num):
     else:
         data['next_products_url'] = None
     return JsonResponse(data)
-
-
 
 

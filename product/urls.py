@@ -23,7 +23,4 @@ urlpatterns = [
     path('org/getProducts/<int:id>/', get_products_api),
     path('org/next_products/<int:id>/<int:num>/', get_api_pagination),
 
-    
-
-
 ]
