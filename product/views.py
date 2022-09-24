@@ -1,12 +1,14 @@
+from calendar import month
 from rest_framework import generics
 from product.serializers import *
 from product.models import product, category, category_join_product, product_amount
 from rest_framework.pagination import PageNumberPagination
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from organization.models import *
 from resturant.settings import url
 from django.db.models import Count
-
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 6
@@ -71,10 +73,15 @@ def get_categorys_api(request, id):
     org_id = org_data.room_id.oraganizatsion_id.id
     org_name = org_data.room_id.oraganizatsion_id.name
     org_logo = org_data.room_id.oraganizatsion_id.logo
-    query = (category_join_product.objects.filter(category__oraganizatsion_id=org_id).annotate(dcount=Count('product__product_amount__cart__amount')).order_by('-dcount')\
-        .values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo'))
+    date = (timezone.now() - timedelta(weeks = 18))
     data = {'organizatsion':org_name, "logo": f"{url}media/{str(org_logo)}", "categorys": []}
+    query = list(category_join_product.objects.filter(category__oraganizatsion_id=org_id, product__product_amount__cart__craete_add__range = [date, timezone.now()]).annotate(dcount=Count('product__product_amount__cart__amount')).order_by('-dcount')\
+        .values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo'))
+    all_query = list(category_join_product.objects.filter(category__oraganizatsion_id=org_id).values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo'))
     x = []
+    for i in all_query:
+        if i not in query:
+            query.append(i)
     for i in query:
         if i['category__id'] not in x:
             x.append(i['category__id'])
