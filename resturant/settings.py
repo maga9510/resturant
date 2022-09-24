@@ -38,7 +38,6 @@ else:
     DEBUG = False
 
 
-
 ALLOWED_HOSTS = []
 if not DEBUG:
     ALLOWED_HOSTS += [os.environ.get('ALLOWED_HOSTS')]

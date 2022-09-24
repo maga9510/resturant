@@ -5,6 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 from django.http import JsonResponse, HttpResponse
 from organization.models import *
 from resturant.settings import url
+from django.db.models import Count
+
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 6
@@ -69,34 +71,33 @@ def get_categorys_api(request, id):
     org_id = org_data.room_id.oraganizatsion_id.id
     org_name = org_data.room_id.oraganizatsion_id.name
     org_logo = org_data.room_id.oraganizatsion_id.logo
-    query = category_join_product.objects.filter(category__oraganizatsion_id=org_id).values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo')
-    cat_data = category.objects.filter(oraganizatsion_id=org_id)
+    query = (category_join_product.objects.filter(category__oraganizatsion_id=org_id).annotate(dcount=Count('product__product_amount__cart__amount')).order_by('-dcount')\
+        .values('category__id', 'category__name', 'category__photo', 'product__id','product__name', 'product__photo'))
     data = {'organizatsion':org_name, "logo": f"{url}media/{str(org_logo)}", "categorys": []}
-    count = 0
-    for i in cat_data:
-        data['categorys'].append({
-            'name': i.name,
-            'category_id': i.id,
-            'category_photo_url': f"{url}media/{str(i.photo)}",
-            'products': [],
-            'next_products_url': None,
-            })
+    x = []
     for i in query:
-        for x in data['categorys']:
-            if x['category_id']== i['category__id']:
-                if len(x['products'])<6:
-                    x['products'].append({
-                        'product_name': i['product__name'],
-                        'product_id': i['product__id'], 
-                        'product_photo_url': f"{url}media/{str(i['product__photo'])}",
-                        })
-                count += 1
-                if count > 7:
-                    x['next_products_url'] = f"{url}api/v1/org/next_products/{x['category_id']}/1/"
-                    count = 0
-                    break
-                print(count)
-
+        if i['category__id'] not in x:
+            x.append(i['category__id'])
+            data['categorys'].append({
+                'name': i['category__name'],
+                'category_id': i['category__id'],
+                'category_photo_url': f"{url}media/{str(i['category__photo'])}",
+                'products': [],
+                'next_products_url': None,
+                })
+    some = {i : 0 for i in x}
+    for i in query:
+        some[i['category__id']] += 1
+        q = x.index(i['category__id'])
+        if some[i['category__id']] > 5:
+            data['categorys'][q]['next_products_url'] = f"{url}api/v1/org/next_products/{i['category__id']}/1/"
+            continue
+        if len(data['categorys'][q]['products']) < 6:
+            data['categorys'][q]['products'].append({
+                'product_name': i['product__name'],
+                'product_id': i['product__id'], 
+                'product_photo_url': f"{url}media/{str(i['product__photo'])}",
+                })
     return JsonResponse(data)
         
 

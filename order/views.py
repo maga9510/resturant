@@ -38,24 +38,26 @@ def cart_list(request, id):
 
 @csrf_exempt 
 def create_order_api(request):
-    if request.method == "POST":    
+    
+    if request.method == "POST":  
         data = json.loads(request.body)
-        if geo_pos['lat_1'] <= data['geo_code'][0] <= geo_pos['lat_2'] and geo_pos['lon_1'] <= data['geo_code'][1] <= geo_pos['lon_2']:
-            order_data = order(organization_table_id=data['table_num'], name=data['name'], last_name=data['last_name'], phone=data['phone'],\
-                 people_number=data['people_number'], paymants=data['paymant'])
-            order_data.save()
-            for i in data['product']:
-                cart_data = cart(orders_id = order_data.id, product_amount_id=i['product_amount_id'], amount=i['quantity'])
-                cart_data.save()
-            r = {
-                "order_id": order_data.id,
-                "order_status": "pending",
-            }
-            return JsonResponse(r)   
-        else:
-            return HttpResponse("Geo pisition out in resturant")  
-    else:
-        return HttpResponse("500")    
+        print(data)  
+    #     data = json.loads(request.body)
+    #     order_data = order(organization_table_id=data['table_num'], name=data['name'], last_name=data['last_name'], phone=data['phone'],\
+    #          people_number=data['people_number'], paymants=data['paymant'])
+    #     order_data.save()
+    #     for i in data['product']:
+    #         cart_data = cart(orders_id = order_data.id, product_amount_id=i['product_amount_id'], amount=i['quantity'])
+    #         cart_data.save()
+    #     r = {
+    #         "order_id": order_data.id,
+    #         "order_status": "pending",
+    #     }
+    #     return JsonResponse(r)   
+    #     else:
+    #         return HttpResponse("Geo pisition out in resturant")  
+    # else:
+    return HttpResponse("200", status = 200)    
 
 @csrf_exempt 
 def update_order_api(request):

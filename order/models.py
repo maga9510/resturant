@@ -8,16 +8,16 @@ class order(models.Model):
     organization_table = models.ForeignKey(organization_table, help_text='Which table the client chose', verbose_name='table number',  on_delete=models.PROTECT)
     people_number = models.PositiveSmallIntegerField(verbose_name='Peopls', help_text='How many clients')
     STATUS = (
-        ('new', 'new'),
-        ('pending', 'pending'),
-        ("preparing", 'preparing'),
-        ('cancellation', 'cancellation'),
+        (1, 'new'),
+        (2, 'pending'),
+        (3, 'preparing'),
+        (4, 'cancellation'),
         
     )
     name = models.CharField(max_length= 64, verbose_name="Client name", null=False)
     last_name = models.CharField(max_length=64, verbose_name="Client lastname", null=True, blank=True)
     phone = models.CharField(max_length=13, verbose_name="Phone number")
-    status = models.PositiveSmallIntegerField(verbose_name='Order status', choices=STATUS, default= 1)
+    status = models.PositiveSmallIntegerField(verbose_name='Order status', choices=STATUS, default=1)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     PAYMANTS = (
         ("Cash", 'Cash'),
